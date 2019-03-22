@@ -1,0 +1,106 @@
+{
+  "name": "Faculty Onboarding",
+
+  "namespace":"Stanford\\FacultyOnboarding",
+
+  "description": "A module for the Faculty Onboarding databsae",
+
+  "authors": [
+    {
+      "name": "Andrew Martin",
+      "email": "andy123@stanford.edu",
+      "institution": "Stanford University"
+    },
+    {
+      "name": "Jae Lee",
+      "email": "jael@stanford.edu",
+      "institution": "Stanford University"
+    }
+  ],
+
+  "permissions": [
+    "redcap_save_record"
+  ],
+
+  "links": {
+    "control-center": [
+    ],
+    "project": [
+    ]
+  },
+
+  "system-settings": [
+    {
+      "key": "enable-system-debug-logging",
+      "name": "<b>Enable Debug Logging (system-wide)</b>",
+      "required": false,
+      "type": "checkbox"
+    }
+  ],
+
+  "project-settings": [
+    {
+      "key": "dept-div-lookup-project",
+      "name": "<b>Project for Department Division Lookup</b><br>Select the project where the department division lookups are defined",
+      "required": false,
+      "type": "project-id"
+    },
+    {
+      "key": "lookup-project-dept-field",
+      "name": "<b>Dept Field in Lookup Project</b><br>Enter the field ",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "key": "lookup-project-division-field",
+      "name": "<b>Division Field in Lookup Project</b><br>Enter the field ",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "key": "migrate-sql-fields",
+      "name": "Migrate labels from sql selection for Department Division",
+      "required": false,
+      "type": "sub_settings",
+      "repeatable": true,
+      "sub_settings": [
+        {
+          "key": "dept-div-form",
+          "name": "<b>Department Division field form</b><br>Select the form where the migration fields are located",
+          "required": false,
+          "type": "form-list"
+        },
+        {
+          "key": "dept-div-form-event",
+          "name": "<b>Event of Department Division field form</b><br>Select the event where the migration fields are located",
+          "required": false,
+          "type": "event-list"
+        },
+        {
+          "key": "sql-field",
+          "name": "<b>SQL field</b><br>Select the sql field where the department division is selected",
+          "required": false,
+          "type": "field-list"
+        },
+      {
+          "key": "dept-field",
+        "name": "<b>Dept field</b><br>Select field where the department label should be written",
+          "required": false,
+          "type": "field-list"
+        },
+        {
+          "key": "div-field",
+          "name": "<b>Div field</b><br>Select field where the division label should be written",
+          "required": false,
+          "type": "field-list"
+        }
+      ]
+    },
+    {
+      "key": "enable-project-debug-logging",
+      "name": "<b>Enable Debug Logging</b>",
+      "required": false,
+      "type": "checkbox"
+    }
+  ]
+}
