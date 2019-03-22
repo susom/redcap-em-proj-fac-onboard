@@ -58,6 +58,24 @@
       "type": "text"
     },
     {
+      "key": "lookup-project-division-email-field",
+      "name": "<b>Division Email Field in Lookup Project</b><br>Enter the field ",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "key": "lookup-project-department-email-field",
+      "name": "<b>Department Email Field in Lookup Project</b><br>Enter the field ",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "key": "lookup-project-approver-email-field",
+      "name": "<b>Approver Email Field in Lookup Project</b><br>Enter the field ",
+      "required": false,
+      "type": "text"
+    },
+    {
       "key": "migrate-sql-fields",
       "name": "Migrate labels from sql selection for Department Division",
       "required": false,
@@ -91,6 +109,24 @@
         {
           "key": "div-field",
           "name": "<b>Div field</b><br>Select field where the division label should be written",
+          "required": false,
+          "type": "field-list"
+        },
+        {
+          "key": "dept-email-field",
+        "name": "<b>Dept field</b><br>Select field where the department email should be written",
+          "required": false,
+          "type": "field-list"
+        },
+        {
+          "key": "div-email-field",
+          "name": "<b>Div field</b><br>Select field where the division email should be written",
+          "required": false,
+          "type": "field-list"
+        },
+        {
+          "key": "approver-email-field",
+          "name": "<b>Approver field</b><br>Select field where the approver email should be written",
           "required": false,
           "type": "field-list"
         }

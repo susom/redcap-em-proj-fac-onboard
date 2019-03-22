@@ -14,9 +14,6 @@ class FacultyOnboarding extends \ExternalModules\AbstractExternalModule
 
         $target_forms = $this->getProjectSetting('dept-div-form');
 
-
-
-
         foreach ($target_forms as $sub => $target_form) {
 
             if ($instrument == $target_form) {
@@ -32,24 +29,31 @@ class FacultyOnboarding extends \ExternalModules\AbstractExternalModule
                 }
 
                 //look up corresponding value in dept_div project
-                $dept_div = $this->getDeptDivFromCode($sql_field);
-                $dept = $dept_div[$this->getProjectSetting('lookup-project-dept-field')];
-                $div = $dept_div[$this->getProjectSetting('lookup-project-division-field')];
-                //$this->emDebug($dept_div,$dept, $div, "FOO");
+                $dept_field = $this->getProjectSetting('lookup-project-dept-field');
+                $division_field = $this->getProjectSetting('lookup-project-division-field');
+                $dept_email_field = $this->getProjectSetting('lookup-project-department-email-field');
+                $div_email_field = $this->getProjectSetting('lookup-project-division-email-field');
+                $approver_email_field = $this->getProjectSetting('lookup-project-approver-email-field');
 
-                //save the labels to the target fields
+                $dept_div = $this->getDeptDivFromCode($sql_field, array($dept_field, $division_field, $dept_email_field, $div_email_field, $approver_email_field));
+
+                //save the labels and emails to the target fields
                 $data = array(
                     REDCap::getRecordIdField() => $record,
                     'redcap_event_name' =>   REDCap::getEventNames(true,false, $event_id),
-                    $this->getProjectSetting('dept-field')[$sub] => $dept,
-                    $this->getProjectSetting('div-field')[$sub]  => $div
+                    $this->getProjectSetting('dept-field')[$sub] => $dept_div[$dept_field],
+                    $this->getProjectSetting('div-field')[$sub]  => $dept_div[$division_field],
+                    $this->getProjectSetting('dept-email-field')[$sub]  => $dept_div[$dept_email_field],
+                    $this->getProjectSetting('div-email-field')[$sub]  => $dept_div[$div_email_field],
+                    $this->getProjectSetting('approver-email-field')[$sub]  => $dept_div[$approver_email_field]
                 );
 
+                //$this->emDebug($dept_div,$dept, $div,$this->getProjectSetting('approver-email-field')[$sub], $data, "FOO");
                 $response = REDCap::saveData('json', json_encode(array($data)));
 
                 if (!empty($response['errors'])) {
                     $msg =  "Error saving Department and Division labels by Faculty Onboarding EM";
-                    $this->emError($msg);
+                    $this->emError($msg, $response['errors'], $response, $data);
 
                     REDCap::logEvent(
                         $msg,  //action
@@ -66,17 +70,15 @@ class FacultyOnboarding extends \ExternalModules\AbstractExternalModule
     }
 
 
-    public function getDeptDivFromCode($code) {
+    public function getDeptDivFromCode($code, $get_fields) {
         $lookup_project = $this->getProjectSetting('dept-div-lookup-project');
-        $dept_field = $this->getProjectSetting('lookup-project-dept-field');
-        $division_field = $this->getProjectSetting('lookup-project-division-field');
 
         //given code return department and div
         $params = array(
             'project_id'         => $lookup_project,
             'return_format'        => 'json',
             'records'            => array($code),
-            'fields'             => array($dept_field, $division_field)
+            'fields'             => $get_fields  //array($dept_field, $division_field, $dept_email, $div_email, $approver_email)
         );
 
         $q = REDCap::getData($params);
