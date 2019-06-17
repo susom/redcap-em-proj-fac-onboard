@@ -76,6 +76,12 @@
       "type": "text"
     },
     {
+      "key": "ssn-url",
+      "name": "<b>SSN Url to copy over to each record</b><br>The record ID will be added to each url",
+      "required": false,
+      "type": "text"
+    },
+    {
       "key": "migrate-sql-fields",
       "name": "Migrate labels from sql selection for Department Division",
       "required": false,
@@ -114,19 +120,25 @@
         },
         {
           "key": "dept-email-field",
-        "name": "<b>Dept field</b><br>Select field where the department email should be written",
+        "name": "<b>Dept Email field</b><br>Select field where the department email should be written",
           "required": false,
           "type": "field-list"
         },
         {
           "key": "div-email-field",
-          "name": "<b>Div field</b><br>Select field where the division email should be written",
+          "name": "<b>Div Email field</b><br>Select field where the division email should be written",
           "required": false,
           "type": "field-list"
         },
         {
           "key": "approver-email-field",
-          "name": "<b>Approver field</b><br>Select field where the approver email should be written",
+          "name": "<b>Approver Email field</b><br>Select field where the approver email should be written",
+          "required": false,
+          "type": "field-list"
+        },
+        {
+          "key": "ssn-url-field",
+          "name": "<b>SSN Url field</b><br>Select field where the ssn lookup url should be written",
           "required": false,
           "type": "field-list"
         }
