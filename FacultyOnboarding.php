@@ -37,11 +37,6 @@ class FacultyOnboarding extends \ExternalModules\AbstractExternalModule
 
                 $dept_div = $this->getDeptDivFromCode($sql_field, array($dept_field, $division_field, $dept_email_field, $div_email_field, $approver_email_field));
 
-                //todo: ask andy123 about the ssn_url
-                // I'm also going to set the SSN URL here for reporting...
-                //$ssn_url = "https://redcap.stanford.edu/plugins/faculty_onboarding/ssn.php?pid=" . $det->project_id . "&record=" . $det->record;
-                //$ssn_url = "https://redcap.stanford.edu/api/?type=module&prefix=ssn_masker&page=src%2FViewer&pid=15793&NOAUTH"."&record=" . $record;
-
                 //save the labels and emails to the target fields
                 $data = array(
                     REDCap::getRecordIdField() => $record,
@@ -50,8 +45,7 @@ class FacultyOnboarding extends \ExternalModules\AbstractExternalModule
                     $this->getProjectSetting('div-field')[$sub]  => $dept_div[$division_field],
                     $this->getProjectSetting('dept-email-field')[$sub]  => $dept_div[$dept_email_field],
                     $this->getProjectSetting('div-email-field')[$sub]  => $dept_div[$div_email_field],
-                    $this->getProjectSetting('approver-email-field')[$sub]  => $dept_div[$approver_email_field],
-                    $this->getProjectSetting('ssn-url-field')[$sub] => $this->getProjectSetting('ssn-url')."&record=" . $record
+                    $this->getProjectSetting('approver-email-field')[$sub]  => $dept_div[$approver_email_field]
                 );
 
                 //$this->emDebug($dept_div,$dept, $div,$this->getProjectSetting('approver-email-field')[$sub], $data, "FOO");
