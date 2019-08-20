@@ -40,9 +40,12 @@ class FacultyOnboarding extends \ExternalModules\AbstractExternalModule
                 //$this->emDebug($dept_field,$division_field, $dept_email_field, $div_email_field, $approver_email_field, $dept_div);
 
                 //save the labels and emails to the target fields
+                $data = array();
                 $data = array(
                     REDCap::getRecordIdField() => $record,
-                    'redcap_event_name' =>   REDCap::getEventNames(true,false, $event_id));
+                    'redcap_event_name' =>   REDCap::getEventNames(true,false, $event_id)
+                );
+                    //'overwriteBehavior' =>   'overwrite'); //if field is blank, overwrite with blank
 
                 if (isset($this->getProjectSetting('dept-field')[$sub])) {
                     $data[$this->getProjectSetting('dept-field')[$sub]] = $dept_div[$dept_field];
@@ -59,12 +62,14 @@ class FacultyOnboarding extends \ExternalModules\AbstractExternalModule
                     $data[$this->getProjectSetting('div-email-field')[$sub]] = $dept_div[$div_email_field];
                 }
 
-                if (isset($this->getProjectSetting('approver-field')[$sub])) {
+                if (isset($this->getProjectSetting('approver-email-field')[$sub])) {
                     $data[$this->getProjectSetting('approver-email-field')[$sub]] = $dept_div[$approver_email_field];
                 }
 
+
                 //$this->emDebug($dept_div,$dept, $div,$this->getProjectSetting('dept-field')[$sub], $data, "FOO");
-                $response = REDCap::saveData('json', json_encode(array($data)));
+                //todo: is overwrite working for blanking out emails?
+                $response = REDCap::saveData('json', json_encode(array($data)), 'overwrite');
 
                 if (!empty($response['errors'])) {
                     $msg =  "Error saving Department and Division labels by Faculty Onboarding EM";
