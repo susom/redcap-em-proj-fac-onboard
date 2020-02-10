@@ -98,6 +98,7 @@ class FacultyOnboarding extends \ExternalModules\AbstractExternalModule
             }
         }
 
+        $this->emDebug("exiting redcap_save_record hook...");
     }
 
 
