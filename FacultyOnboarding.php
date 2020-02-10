@@ -12,19 +12,28 @@ class FacultyOnboarding extends \ExternalModules\AbstractExternalModule
     {
         //iterate through all of the sub_settings
 
+
         $target_forms = $this->getProjectSetting('dept-div-form');
+
+        $this->emDebug("pid is $project_id / record : $record / inst : $instrument / event : $event_id / target : $target_forms");
+
 
         foreach ($target_forms as $sub => $target_form) {
 
+            $this->emDebug("Instrument Matches for $instrument vs $target_form? : ", $instrument == $target_form);
+
             if ($instrument == $target_form) {
+
                 $migration_event = $this->getProjectSetting('dept-div-form-event')[$sub];
                 $target_field = $this->getProjectSetting('sql-field')[$sub];
 
                 //get value for sql field
                 $sql_field = $this->getFieldValue($record, $event_id, $target_field);
+                $this->emDebug("Instrument matched: Setting Department Division for Sub :  $sub / Form :$target_form /  target_field : $target_field / sql_field : $sql_field");
 
                 if (empty($sql_field)) {
                     //$this->exitAfterHook();  //does this work?
+                    $this->emDebug("SQL NOT SET. RETURN NULL");
                     return null;
                 }
 
@@ -37,7 +46,7 @@ class FacultyOnboarding extends \ExternalModules\AbstractExternalModule
 
                 $dept_div = $this->getDeptDivFromCode($sql_field, array($dept_field, $division_field, $dept_email_field, $div_email_field, $approver_email_field));
 
-                //$this->emDebug($dept_field,$division_field, $dept_email_field, $div_email_field, $approver_email_field, $dept_div);
+                //$this->emDebug("deptfield: $dept_field / division: $division_field / email : $dept_email_field / div+email:  $div_email_field, $approver_email_field / dept_div: $dept_div"); exit;
 
                 //save the labels and emails to the target fields
                 $data = array();
@@ -67,7 +76,9 @@ class FacultyOnboarding extends \ExternalModules\AbstractExternalModule
                 }
 
 
-                //$this->emDebug($dept_div,$dept, $div,$this->getProjectSetting('dept-field')[$sub], $data, "FOO");
+                //$this->emDebug($dept_div, $this->getProjectSetting('dept-field')[$sub], $data, "FOO"); exit;
+
+                $this->emDebug("Saving data: ", $data);
                 //todo: is overwrite working for blanking out emails?
                 $response = REDCap::saveData('json', json_encode(array($data)), 'overwrite');
 
@@ -126,6 +137,8 @@ class FacultyOnboarding extends \ExternalModules\AbstractExternalModule
 
         $q = REDCap::getData($params);
         $results = json_decode($q, true);
+
+        //$this->emDebug("target is $target_field ", $params, $results, current($results)[$target_field]);
 
         return current($results)[$target_field];
     }
